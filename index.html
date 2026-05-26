@@ -1747,6 +1747,1761 @@
   // PURCHASE HANDLER
 function handlePurchase(e) {
     e.preventDefault();
+    window.location.href = 'https://buy.stripe.com/test_dRmcN77cTaFNe1X2Pwbwk01';
+
+  }
+
+  function showPurchaseModal() {
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+      position:fixed;inset:0;z-index:1000;
+      background:rgba(10,14,26,0.92);backdrop-filter:blur(16px);
+      display:flex;align-items:center;justify-content:center;padding:24px;
+    `;
+    modal.innerHTML = `
+      <div style="
+        background:#131B2E;border:1px solid rgba(37,99,235,0.3);
+        border-radius:16px;padding:48px;max-width:480px;width:100%;text-align:center;
+        box-shadow:0 0 60px rgba(37,99,235,0.15);
+      ">
+        <div style="font-size:2.5rem;margin-bottom:16px;">🎉</div>
+        <h3 style="font-family:'DM Serif Display',serif;font-size:1.8rem;color:#F9FAFB;margin-bottom:12px;">Prêt à accéder au guide ?</h3>
+        <p style="color:#9CA3AF;margin-bottom:32px;line-height:1.75;">Vous allez être redirigé vers notre page de paiement sécurisée Stripe. Accès immédiat après confirmation.</p>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <button onclick="window.location.href='mailto:contact@pelagosia.fr?subject=Commande Guide Claude 2026'" style="
+            background:#2563EB;color:white;border:none;border-radius:8px;
+            padding:16px 32px;font-family:'Sora',sans-serif;font-size:1rem;
+            font-weight:600;cursor:pointer;
+          ">Commander par email →</button>
+          <button onclick="this.closest('[style*=fixed]').remove()" style="
+            background:transparent;color:#9CA3AF;border:1px solid #1F2937;
+            border-radius:8px;padding:12px 24px;font-family:'Sora',sans-serif;
+            font-size:0.875rem;cursor:pointer;
+          ">Fermer</button>
+        </div>
+        <p style="font-size:0.75rem;color:#6B7280;margin-top:20px;">🔒 Paiement 100% sécurisé · Accès immédiat · Remboursé si insatisfait 14j</p>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove(); });
+  }
+</script>
+
+</body>
+</html>
+    overflow-x: hidden;
+  }
+
+  /* NOISE TEXTURE */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* MESH BACKGROUND */
+  .mesh-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 20% 20%, rgba(37,99,235,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 80%, rgba(6,182,212,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 60% at 60% 40%, rgba(37,99,235,0.06) 0%, transparent 50%),
+      var(--navy);
+    pointer-events: none;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background 0.3s, backdrop-filter 0.3s, border-bottom 0.3s;
+  }
+  nav.scrolled {
+    background: rgba(10,14,26,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--navy-border);
+  }
+  .logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    color: var(--white);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+  }
+  .logo span { color: var(--cyan); }
+  .nav-links { display: flex; gap: 32px; align-items: center; }
+  .nav-links a {
+    color: var(--gray);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta {
+    background: var(--blue);
+    color: var(--white) !important;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600 !important;
+    transition: background 0.2s, box-shadow 0.2s, transform 0.2s !important;
+  }
+  .nav-cta:hover {
+    background: var(--blue-light) !important;
+    box-shadow: 0 0 20px rgba(37,99,235,0.5) !important;
+    transform: scale(1.02) !important;
+  }
+  .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; }
+  .hamburger span { display: block; width: 24px; height: 2px; background: var(--white); transition: 0.3s; }
+
+  /* CONTENT WRAPPER */
+  .content { position: relative; z-index: 1; }
+
+  /* SECTION BASE */
+  section { padding: 100px 0; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+
+  /* TYPOGRAPHY */
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--white);
+  }
+  h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    margin-bottom: 16px;
+  }
+  h3 {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--white);
+  }
+  p { color: var(--gray); line-height: 1.75; }
+
+  /* BADGE */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(6,182,212,0.1);
+    border: 1px solid rgba(6,182,212,0.3);
+    color: var(--cyan);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 4px;
+    margin-bottom: 24px;
+  }
+
+  /* BUTTONS */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--blue);
+    color: var(--white);
+    font-family: 'Sora', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 16px 36px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+  }
+  .btn-primary:hover {
+    background: var(--blue-light);
+    box-shadow: 0 0 32px rgba(37,99,235,0.5);
+    transform: scale(1.02);
+  }
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--white);
+    font-family: 'Sora', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 14px 28px;
+    border-radius: 8px;
+    border: 1px solid var(--navy-border);
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .btn-secondary:hover {
+    border-color: var(--blue);
+    background: rgba(37,99,235,0.08);
+  }
+
+  /* SECTION LABEL */
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  /* ========== HERO ========== */
+  #hero {
+    padding: 160px 0 100px;
+    position: relative;
+    overflow: hidden;
+  }
+  #hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--navy-border), transparent);
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .hero-content { animation: fadeUp 0.8s ease forwards; }
+  .hero-visual { animation: fadeUp 0.8s 0.2s ease both; display: flex; justify-content: center; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-h1 { margin-bottom: 24px; }
+  .hero-h1 em {
+    font-style: italic;
+    color: var(--cyan);
+  }
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--gray);
+    margin-bottom: 36px;
+    line-height: 1.75;
+    max-width: 520px;
+  }
+  .hero-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 40px;
+  }
+  .hero-sub-cta {
+    font-size: 0.8rem;
+    color: var(--gray);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .hero-reassurance {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    border-top: 1px solid var(--navy-border);
+    padding-top: 28px;
+  }
+  .reassurance-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: var(--gray);
+    font-weight: 500;
+  }
+  .reassurance-item .icon { color: var(--green); font-size: 1rem; }
+
+  /* BOOK MOCKUP */
+  .book-mockup {
+    width: 280px;
+    height: 380px;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: bookFloat 4s ease-in-out infinite;
+    filter: drop-shadow(0 40px 60px rgba(0,0,0,0.6));
+  }
+  @keyframes bookFloat {
+    0%, 100% { transform: translateY(0) rotateY(-8deg) rotateX(4deg); }
+    50% { transform: translateY(-12px) rotateY(-8deg) rotateX(4deg); }
+  }
+  .book-cover {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #0D1B2E 0%, #1A2F4E 40%, #0A1628 100%);
+    border-radius: 4px 12px 12px 4px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(37,99,235,0.3);
+  }
+  .book-cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(37,99,235,0.15) 0%, transparent 50%, rgba(6,182,212,0.08) 100%);
+  }
+  .book-cover::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 14px; height: 100%;
+    background: linear-gradient(90deg, rgba(0,0,0,0.4), rgba(37,99,235,0.1), rgba(0,0,0,0.2));
+    border-right: 1px solid rgba(37,99,235,0.2);
+  }
+  .book-inner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 24px 24px;
+    text-align: center;
+  }
+  .book-logo-text {
+    font-family: 'Sora', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 20px;
+    opacity: 0.8;
+  }
+  .book-icon {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 16px rgba(6,182,212,0.5));
+  }
+  .book-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    line-height: 1.2;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .book-subtitle {
+    font-size: 0.7rem;
+    color: var(--cyan);
+    opacity: 0.8;
+    letter-spacing: 0.05em;
+    margin-bottom: 24px;
+  }
+  .book-line {
+    width: 40px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    margin-bottom: 16px;
+  }
+  .book-meta {
+    font-size: 0.65rem;
+    color: var(--gray);
+    letter-spacing: 0.05em;
+  }
+  .book-glow {
+    position: absolute;
+    bottom: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 80px;
+    background: radial-gradient(ellipse, rgba(37,99,235,0.25), transparent 70%);
+    filter: blur(20px);
+  }
+
+  /* ========== STATS ========== */
+  #stats {
+    padding: 60px 0;
+    background: rgba(17,24,39,0.5);
+    border-top: 1px solid var(--navy-border);
+    border-bottom: 1px solid var(--navy-border);
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    text-align: center;
+  }
+  .stat-item {
+    padding: 32px 24px;
+    position: relative;
+  }
+  .stat-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 20%; height: 60%;
+    width: 1px;
+    background: var(--navy-border);
+  }
+  .stat-number {
+    font-family: 'DM Serif Display', serif;
+    font-size: 3.5rem;
+    line-height: 1;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .stat-number span { color: var(--cyan); }
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--gray);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .stats-caption {
+    text-align: center;
+    max-width: 640px;
+    margin: 40px auto 0;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--gray);
+  }
+  .stats-caption strong { color: var(--white); }
+
+  /* ========== PROBLEM ========== */
+  #problem { padding: 100px 0; }
+  .problem-intro {
+    max-width: 700px;
+    margin-bottom: 60px;
+  }
+  .problem-intro p { font-size: 1.05rem; margin-top: 16px; }
+  .problem-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .problem-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 12px;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .problem-card:hover {
+    border-color: rgba(239,68,68,0.3);
+    transform: translateY(-4px);
+  }
+  .problem-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--red), transparent);
+    opacity: 0.6;
+  }
+  .problem-icon {
+    font-size: 1.5rem;
+    margin-bottom: 16px;
+    display: block;
+  }
+  .problem-card h3 { font-size: 1rem; margin-bottom: 12px; color: var(--white); }
+  .problem-card p { font-size: 0.9rem; }
+
+  /* ========== MODULES ========== */
+  #modules { padding: 100px 0; }
+  .modules-header { max-width: 600px; margin-bottom: 60px; }
+  .module-list { display: flex; flex-direction: column; gap: 12px; }
+  .module-item {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .module-item:hover { border-color: rgba(37,99,235,0.3); }
+  .module-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 28px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .module-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--cyan);
+    background: rgba(6,182,212,0.08);
+    border: 1px solid rgba(6,182,212,0.2);
+    padding: 4px 10px;
+    border-radius: 4px;
+    min-width: 50px;
+    text-align: center;
+  }
+  .module-title-text {
+    flex: 1;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--white);
+  }
+  .module-icon-em { font-size: 1.1rem; }
+  .module-chevron {
+    color: var(--gray);
+    font-size: 1rem;
+    transition: transform 0.3s;
+  }
+  .module-item.open .module-chevron { transform: rotate(180deg); }
+  .module-body {
+    display: none;
+    padding: 0 28px 24px 98px;
+    border-top: 1px solid var(--navy-border);
+    padding-top: 20px;
+  }
+  .module-item.open .module-body { display: block; }
+  .module-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .module-tag {
+    font-size: 0.75rem;
+    color: var(--gray);
+    background: rgba(31,41,55,0.8);
+    border: 1px solid var(--navy-border);
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .modules-callout {
+    margin-top: 40px;
+    background: linear-gradient(135deg, rgba(37,99,235,0.08), rgba(6,182,212,0.05));
+    border: 1px solid rgba(37,99,235,0.2);
+    border-radius: 12px;
+    padding: 28px 36px;
+    font-size: 0.95rem;
+    color: var(--white);
+    line-height: 1.7;
+  }
+  .modules-callout em { color: var(--cyan); font-style: normal; }
+
+  /* ========== FOR WHO ========== */
+  #forwho { padding: 100px 0; }
+  .forwho-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: 48px;
+  }
+  .forwho-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 12px;
+    padding: 36px;
+    overflow: hidden;
+    position: relative;
+  }
+  .forwho-card.yes { border-color: rgba(16,185,129,0.2); }
+  .forwho-card.no { border-color: rgba(239,68,68,0.15); }
+  .forwho-card.yes::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--green), transparent);
+  }
+  .forwho-card.no::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--red), transparent);
+  }
+  .forwho-card-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .yes .forwho-card-title { color: var(--green); }
+  .no .forwho-card-title { color: var(--red); }
+  .forwho-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .forwho-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 0.9rem;
+    color: var(--gray);
+    line-height: 1.5;
+  }
+  .forwho-list li .check { flex-shrink: 0; margin-top: 2px; }
+  .yes .check { color: var(--green); }
+  .no .check { color: var(--red); }
+
+  /* ========== TABLE DES MATIÈRES ========== */
+  #toc { padding: 100px 0; }
+  .toc-container {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 40px;
+  }
+  .toc-header-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 20px;
+    background: rgba(31,41,55,0.5);
+    border-bottom: 1px solid var(--navy-border);
+  }
+  .toc-dot { width: 12px; height: 12px; border-radius: 50%; }
+  .toc-dot:nth-child(1) { background: #FF5F57; }
+  .toc-dot:nth-child(2) { background: #FEBC2E; }
+  .toc-dot:nth-child(3) { background: #28C840; }
+  .toc-filename {
+    margin-left: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--gray);
+  }
+  .toc-scroll {
+    max-height: 480px;
+    overflow-y: auto;
+    padding: 28px 32px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    line-height: 2.2;
+    scrollbar-width: thin;
+    scrollbar-color: var(--navy-border) transparent;
+  }
+  .toc-scroll::-webkit-scrollbar { width: 4px; }
+  .toc-scroll::-webkit-scrollbar-thumb { background: var(--navy-border); border-radius: 2px; }
+  .toc-module-title {
+    color: var(--cyan);
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-top: 20px;
+    margin-bottom: 4px;
+  }
+  .toc-entry {
+    display: flex;
+    justify-content: space-between;
+    color: var(--gray);
+    padding-left: 16px;
+    border-left: 1px solid var(--navy-border);
+  }
+  .toc-entry:hover { color: var(--white); border-left-color: var(--blue); }
+  .toc-entry-sub { padding-left: 32px; font-size: 0.75rem; opacity: 0.7; }
+  .toc-page { color: var(--navy-border); font-size: 0.75rem; }
+  .toc-caption {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 0.8rem;
+    color: var(--gray);
+    font-style: italic;
+  }
+
+  /* ========== TESTIMONIALS ========== */
+  #testimonials { padding: 100px 0; }
+  .testi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 48px;
+  }
+  .testi-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 12px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .testi-card:hover {
+    border-color: rgba(37,99,235,0.3);
+    transform: translateY(-4px);
+  }
+  .stars { color: var(--gold); font-size: 0.9rem; letter-spacing: 2px; }
+  .testi-quote {
+    font-size: 0.9rem;
+    color: var(--white);
+    line-height: 1.75;
+    flex: 1;
+  }
+  .testi-quote::before { content: '"'; color: var(--blue); font-size: 1.5rem; }
+  .testi-author { display: flex; align-items: center; gap: 14px; }
+  .testi-avatar {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue), var(--cyan));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--white);
+    flex-shrink: 0;
+  }
+  .testi-name { font-size: 0.85rem; font-weight: 600; color: var(--white); }
+  .testi-role { font-size: 0.75rem; color: var(--gray); }
+  .testi-early {
+    margin-top: 32px;
+    background: linear-gradient(135deg, rgba(37,99,235,0.06), rgba(6,182,212,0.04));
+    border: 1px dashed rgba(37,99,235,0.3);
+    border-radius: 12px;
+    padding: 28px 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .testi-early p { font-size: 0.9rem; }
+  .testi-early p strong { color: var(--white); }
+
+  /* ========== OFFER ========== */
+  #offer { padding: 100px 0; }
+  .offer-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .offer-card {
+    background: var(--navy-card);
+    border: 1px solid rgba(37,99,235,0.3);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 0 60px rgba(37,99,235,0.12), 0 40px 80px rgba(0,0,0,0.4);
+    margin-top: 48px;
+  }
+  .offer-top {
+    background: linear-gradient(135deg, rgba(37,99,235,0.12), rgba(6,182,212,0.06));
+    border-bottom: 1px solid var(--navy-border);
+    padding: 36px 48px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  .offer-badge {
+    background: linear-gradient(135deg, var(--blue), var(--cyan));
+    color: var(--white);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+    display: inline-block;
+  }
+  .offer-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.8rem;
+    color: var(--white);
+  }
+  .offer-price { text-align: right; }
+  .offer-price-old {
+    font-size: 1rem;
+    color: var(--gray);
+    text-decoration: line-through;
+    margin-bottom: 4px;
+  }
+  .offer-price-main {
+    font-family: 'DM Serif Display', serif;
+    font-size: 3.5rem;
+    color: var(--white);
+    line-height: 1;
+  }
+  .offer-price-main span {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.2rem;
+    vertical-align: super;
+    color: var(--gray);
+  }
+  .offer-price-sub {
+    font-size: 0.75rem;
+    color: var(--gray);
+    margin-top: 4px;
+  }
+  .offer-features {
+    padding: 36px 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 32px;
+    border-bottom: 1px solid var(--navy-border);
+  }
+  .feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 0.9rem;
+    color: var(--white);
+  }
+  .feature-item .check { color: var(--green); flex-shrink: 0; margin-top: 2px; }
+  .offer-cta {
+    padding: 36px 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .offer-cta .btn-primary { width: 100%; max-width: 400px; justify-content: center; font-size: 1.1rem; padding: 18px 36px; }
+  .offer-security {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    font-size: 0.78rem;
+    color: var(--gray);
+  }
+  .offer-security span { display: flex; align-items: center; gap: 6px; }
+  .offer-upsell {
+    margin-top: 24px;
+    background: rgba(17,24,39,0.5);
+    border: 1px dashed var(--navy-border);
+    border-radius: 10px;
+    padding: 20px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .offer-upsell p { font-size: 0.875rem; }
+  .offer-upsell p strong { color: var(--white); }
+
+  /* ========== FAQ ========== */
+  #faq { padding: 100px 0; }
+  .faq-header { max-width: 560px; margin-bottom: 52px; }
+  .faq-list { display: flex; flex-direction: column; gap: 12px; max-width: 860px; }
+  .faq-item {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .faq-item:hover { border-color: rgba(37,99,235,0.2); }
+  .faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 24px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--white);
+  }
+  .faq-chevron {
+    color: var(--gray);
+    flex-shrink: 0;
+    transition: transform 0.3s;
+    font-size: 1.1rem;
+  }
+  .faq-item.open .faq-chevron { transform: rotate(180deg); }
+  .faq-answer {
+    display: none;
+    padding: 0 24px 20px;
+    font-size: 0.9rem;
+    color: var(--gray);
+    line-height: 1.75;
+    border-top: 1px solid var(--navy-border);
+    padding-top: 16px;
+  }
+  .faq-item.open .faq-answer { display: block; }
+
+  /* ========== FINAL CTA ========== */
+  #final-cta {
+    padding: 100px 0;
+    text-align: center;
+    position: relative;
+  }
+  #final-cta::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%; transform: translateX(-50%);
+    width: 1px; height: 80px;
+    background: linear-gradient(to bottom, transparent, var(--navy-border));
+  }
+  .final-text {
+    max-width: 680px;
+    margin: 0 auto 48px;
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: var(--gray);
+  }
+  .final-text strong { color: var(--white); }
+  .guarantee {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(16,185,129,0.08);
+    border: 1px solid rgba(16,185,129,0.25);
+    color: var(--green);
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: 24px;
+  }
+
+  /* ========== FOOTER ========== */
+  footer {
+    border-top: 1px solid var(--navy-border);
+    padding: 48px 0 32px;
+  }
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+  .footer-brand .logo { display: block; margin-bottom: 10px; }
+  .footer-tagline { font-size: 0.8rem; color: var(--gray); }
+  .footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: center;
+  }
+  .footer-links a {
+    color: var(--gray);
+    font-size: 0.8rem;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--white); }
+  .footer-copy {
+    border-top: 1px solid var(--navy-border);
+    padding-top: 24px;
+    font-size: 0.75rem;
+    color: var(--gray);
+    text-align: center;
+  }
+
+  /* MOBILE STICKY CTA */
+  .mobile-sticky-cta {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 90;
+    padding: 12px 20px;
+    background: rgba(10,14,26,0.95);
+    backdrop-filter: blur(16px);
+    border-top: 1px solid var(--navy-border);
+  }
+  .mobile-sticky-cta .btn-primary { width: 100%; justify-content: center; }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  /* DIVIDER */
+  .section-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--navy-border) 20%, var(--navy-border) 80%, transparent);
+  }
+
+  /* ========== RESPONSIVE ========== */
+  @media (max-width: 1024px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 60px; }
+    .book-mockup { width: 220px; height: 300px; }
+    .problem-grid { grid-template-columns: 1fr 1fr; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .stat-item:nth-child(2)::after { display: none; }
+    .offer-features { grid-template-columns: 1fr; }
+    .testi-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 768px) {
+    section { padding: 72px 0; }
+    .container { padding: 0 20px; }
+    nav { padding: 14px 20px; }
+    .nav-links { display: none; }
+    .nav-links.open {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      top: 64px; left: 0; right: 0;
+      background: rgba(10,14,26,0.97);
+      border-bottom: 1px solid var(--navy-border);
+      padding: 20px;
+      gap: 16px;
+    }
+    .hamburger { display: flex; }
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-visual { order: -1; }
+    .book-mockup { width: 180px; height: 240px; }
+    .problem-grid { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+    .forwho-grid { grid-template-columns: 1fr; }
+    .testi-grid { grid-template-columns: 1fr; }
+    .offer-top { padding: 28px 24px; flex-direction: column; }
+    .offer-price { text-align: left; }
+    .offer-features { padding: 28px 24px; }
+    .offer-cta { padding: 28px 24px; }
+    .mobile-sticky-cta { display: block; }
+    .footer-inner { flex-direction: column; }
+    .testi-early { flex-direction: column; }
+    .module-body { padding-left: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="mesh-bg"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="logo">Pela<span>gosia</span></a>
+  <div class="nav-links" id="navLinks">
+    <a href="#modules">La formation</a>
+    <a href="#modules">Modules</a>
+    <a href="#testimonials">Témoignages</a>
+    <a href="#offer">Tarif</a>
+    <a href="#offer" class="nav-cta">Obtenir le guide →</a>
+  </div>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="content">
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-content">
+        <div class="badge">📘 10 modules · 119 pages · Exercices & quiz · Édition 2026</div>
+        <h1 class="hero-h1">Maîtrisez Claude comme les <em>1&nbsp;%</em> qui l'utilisent vraiment.</h1>
+        <p class="hero-sub">Le seul guide francophone de niveau formateur certifié pour utiliser Claude avec une précision professionnelle — prompts, raisonnement, code, agents, limites réelles.</p>
+        <div class="hero-actions">
+          <a href="#offer" class="btn-primary">Accéder au guide maintenant →</a>
+          <div class="hero-sub-cta">🔐 Accès immédiat après paiement — Format PDF + lecture en ligne</div>
+        </div>
+        <div class="hero-reassurance">
+          <div class="reassurance-item"><span class="icon">🔒</span> Paiement sécurisé</div>
+          <div class="reassurance-item"><span class="icon">✅</span> Accès immédiat</div>
+          <div class="reassurance-item"><span class="icon">📖</span> Niveau formateur certifié</div>
+          <div class="reassurance-item"><span class="icon">🇫🇷</span> 100 % en français</div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="book-mockup">
+          <div class="book-cover">
+            <div class="book-inner">
+              <div class="book-logo-text">Pelagosia</div>
+              <div class="book-icon">🤖</div>
+              <div class="book-title">Guide Complet<br>Claude</div>
+              <div class="book-subtitle">Formation Premium · Édition 2026</div>
+              <div class="book-line"></div>
+              <div class="book-meta">119 pages · 10 modules</div>
+            </div>
+          </div>
+          <div class="book-glow"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section id="stats">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item reveal">
+        <div class="stat-number" data-target="119">0</div>
+        <div class="stat-label">pages de formation dense</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-1">
+        <div class="stat-number" data-target="10">0</div>
+        <div class="stat-label">modules progressifs</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-2">
+        <div class="stat-number">100<span>+</span></div>
+        <div class="stat-label">exercices & cas pratiques</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-3">
+        <div class="stat-number">2026</div>
+        <div class="stat-label">mise à jour Claude 4 & 4.5</div>
+      </div>
+    </div>
+    <p class="stats-caption reveal">
+      Conçu par Pelagosia, organisme de formation spécialisé en IA Claude. La progression est rigoureuse, la pédagogie exigeante. <strong>Ce n'est pas un recueil de prompts — c'est une formation complète.</strong>
+    </p>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section id="problem">
+  <div class="container">
+    <div class="problem-intro reveal">
+      <span class="section-label">Le diagnostic</span>
+      <h2>Vous utilisez Claude.<br>Mais vous n'en exploitez qu'une fraction.</h2>
+      <p>La plupart des utilisateurs plafonnent dès les premières semaines — pas par manque d'intelligence, mais par manque de méthode. Voilà ce qui se passe vraiment.</p>
+    </div>
+    <div class="problem-grid">
+      <div class="problem-card reveal">
+        <span class="problem-icon">❌</span>
+        <h3>Vos prompts sont médiocres sans que vous le sachiez</h3>
+        <p>Vous posez des questions au lieu de formuler des commandes. Vous obtenez des réponses génériques quand vous pourriez obtenir des livrables prêts à l'emploi. Le décalage entre ce que vous demandez et ce que Claude peut vraiment faire est immense.</p>
+      </div>
+      <div class="problem-card reveal reveal-delay-1">
+        <span class="problem-icon">❌</span>
+        <h3>Vous perdez du temps sur des tâches que Claude ferait en 30 secondes</h3>
+        <p>Écriture, code, analyse, synthèse : vous naviguez à vue, sans méthode. Vous recommencez quand vous devriez itérer. Vous ne savez pas quand faire confiance et quand vérifier.</p>
+      </div>
+      <div class="problem-card reveal reveal-delay-2">
+        <span class="problem-icon">❌</span>
+        <h3>Votre concurrent qui a compris prend de l'avance sur vous maintenant</h3>
+        <p>En 2026, la maîtrise de Claude n'est plus une curiosité. C'est un levier concurrentiel réel. Chaque semaine sans méthode est une semaine perdue.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container"><div class="section-divider"></div></div>
+
+<!-- MODULES -->
+<section id="modules">
+  <div class="container">
+    <div class="modules-header reveal">
+      <span class="section-label">Le programme</span>
+      <h2>Ce que vous allez maîtriser, module par module.</h2>
+    </div>
+    <div class="module-list reveal" id="moduleList">
+
+      <div class="module-item">
+        <div class="module-header" onclick="toggleModule(this)">
+          <span class="module-num">I</span>
+          <span class="module-icon-em">🧠</span>
+          <span class="module-title-text">Comprendre ce qu'est Claude en 2026</span>
+          <span class="module-chevron">▾</span>
+        </div>
+        <div class="module-body">
+          <p>Architecture des modèles, différences Opus / Sonnet / Haiku, fenêtre de contexte 200k, coupure de connaissance, valeurs et guardrails propres à Claude. Ce que les autres ne vous disent pas sur la façon dont Claude pense vraiment.</p>
+          <div class="module-tags">
+            <span class="module-tag">Opus 4.5</span>
+            <span class="module-tag">Sonnet 4.6</span>
+            <span class="module-tag">Contexte 200k</span>
+            <span class="module-tag">Architecture</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="module-item">
+        <div class="module-header" onclick="toggleModule(this)">
+          <span class="module-num">II</span>
+          <span class="module-icon-em">🎯</span>
+          <span class="module-title-text">La psychologie du bon prompt</span>
+          <span class="module-chevron">▾</span>
+        </div>
+        <div class="module-body">
+          <p>Les 4 piliers (contexte, tâche, format, contraintes), les pièges les plus fréquents et comment les éviter. La règle du brief de communication appliquée à l'IA. Ce module change définitivement la façon dont vous formulez vos demandes.</p>
+          <div class="module-tags">
+            <span class="module-tag">4 piliers</span>
+            <span class="module-tag">Brief</span>
+            <span class="module-tag">Pièges</span>
+            <span class="module-tag">Méthode</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="module-item">
+        <div class="module-header" onclick="toggleModule(this)">
+          <span class="module-num">III</span>
+          <span class="module-icon-em">⚡</span>
+          <span class="module-title-text">Techniques de prompting avancées</span>
+          <span class="module-chevron">▾</span>
+        </div>
+        <div class="module-body">
+          <p>Chain-of-Thought, Few-shot, Role prompting, décomposition de tâches complexes, méta-réflexion. Comment combiner ces techniques pour des résultats exponentiellement meilleurs.</p>
+          <div class="module-tags">
+            <span class="module-tag">Chain-of-Thought</span>
+            <span class="module-tag">Few-shot</span>
+            <span class="module-tag">Role prompting</span>
+            <span class="module-tag">Méta-réflexion</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="module-item">
+        <div class="module-header" onclick="toggleModule(this)">
+          <span class="module-num">IV</span>
+          <span class="module-icon-em">💾</span>
+          <span class="module-title-text">Mémoire, contexte et gestion de session</span>
+          <span class="module-chevron">▾</span>
+        </div>
+        <div class="module-body">
+          <p>Projects, conversations longues, upload de documents, préférences utilisateur persistantes. Comment exploiter la fenêtre de contexte 200k sans la gaspiller.</p>
+          <div class="module-tags">
+            <span class="module-tag">Projects</span>
+            <span class="module-tag">Upload docs</span>
+            <span class="module-tag">Sessions longues</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="module-item">
+        <div class="module-header" onclick="toggleModule(this)">
+          <span class="module-num">V</span>
+          <span class="module-icon-em">✍️</span>
+          <span class="module-title-text">Claude pour écrire</span>
+          <span class="module-chevron">▾</span>
+        </div>
+        <div class="module-body">
+          <p>Emails, notes de synthèse, pitch investisseur, posts LinkedIn, voix personnalisée, itération éditoriale. De la première ébauche au livrable publié, sans compromis sur la qualité.</p>
+          <div class="module-tags">
+            <span class="module-tag">Emails</span>
+            <span class="module-tag">Pitch</span>
+            <span class="module-tag">LinkedIn</span>
+            <span class="module-tag">Voix personnalisée</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="module-item">
+        <div class="module-header" onclick="toggleModule(this)">
+          <span class="module-num">VI</span>
+          <span class="module-icon-em">💻</span>
+          <span class="module-title-text">Claude pour coder</span>
+          <span class="module-chevron">▾</span>
+        </div>
+        <div class="module-body">
+          <p>Génération, debug, refactoring, documentation. Claude Code en ligne de commande. Le vibe coding : transformer une idée en application en quelques heures.</p>
+          <div class="module-tags">
+            <span class="module-tag">Claude Code</span>
+            <span class="module-tag">Debug</span>
+            <span class="module-tag">Refactoring</span>
+            <span class="module-tag">Vibe coding</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="module-item">
+        <div class="module-header" onclick="toggleModule(this)">
+          <span class="module-num">VII</span>
+          <span class="module-icon-em">🔍</span>
+          <span class="module-title-text">Analyser et raisonner</span>
+          <span class="module-chevron">▾</span>
+        </div>
+        <div class="module-body">
+          <p>Analyse de documents complexes, extraction structurée, audit critique, traitement CSV. Deep Research : comment obtenir une analyse qui vaut une journée de consultant.</p>
+          <div class="module-tags">
+            <span class="module-tag">Deep Research</span>
+            <span class="module-tag">CSV</span>
+            <span class="module-tag">Extraction</span>
+            <span class="module-tag">Audit</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="module-item">
+        <div class="module-header" onclick="toggleModule(this)">
+          <span class="module-num">VIII</span>
+          <span class="module-icon-em">🌐</span>
+          <span class="module-title-text">L'écosystème Claude 2026</span>
+          <span class="module-chevron">▾</span>
+        </div>
+        <div class="module-body">
+          <p>claude.ai, Claude Code, Claude in Chrome, Claude in Excel, Claude in PowerPoint, Cowork, API, MCP, Artifacts. La cartographie complète de tout ce que Claude peut faire pour vous.</p>
+          <div class="module-tags">
+            <span class="module-tag">API</span>
+            <span class="module-tag">MCP</span>
+            <span class="module-tag">Artifacts</span>
+            <span class="module-tag">Intégrations</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="module-item">
+        <div class="module-header" onclick="toggleModule(this)">
+          <span class="module-num">IX</span>
+          <span class="module-icon-em">⚠️</span>
+          <span class="module-title-text">Les limites réelles</span>
+          <span class="module-chevron">▾</span>
+        </div>
+        <div class="module-body">
+          <p>Hallucinations, refus, biais systémiques, cohérence sur les longues conversations, domaines à éviter. Ce que personne ne vous dit — mais ce que tout professionnel doit savoir.</p>
+          <div class="module-tags">
+            <span class="module-tag">Hallucinations</span>
+            <span class="module-tag">Biais</span>
+            <span class="module-tag">Refus</span>
+            <span class="module-tag">Vérification</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="module-item">
+        <div class="module-header" onclick="toggleModule(this)">
+          <span class="module-num">X</span>
+          <span class="module-icon-em">🚀</span>
+          <span class="module-title-text">Réflexes et workflows d'experts</span>
+          <span class="module-chevron">▾</span>
+        </div>
+        <div class="module-body">
+          <p>5 questions à se poser avant chaque prompt. Itération efficace. Bibliothèque de prompts personnelle. Workflows complets pour les cas professionnels les plus fréquents.</p>
+          <div class="module-tags">
+            <span class="module-tag">Workflows</span>
+            <span class="module-tag">Bibliothèque</span>
+            <span class="module-tag">Itération</span>
+            <span class="module-tag">Templates</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="modules-callout reveal">
+      Chaque module suit le même schéma rigoureux : <em>introduction</em> · <em>explications illustrées</em> · <em>exemples concrets</em> · <em>études de cas professionnels</em> · <em>exercices d'application</em> · <em>quiz de validation</em> · <em>résumé synthétique</em>.
+    </div>
+  </div>
+</section>
+
+<!-- FOR WHO -->
+<section id="forwho">
+  <div class="container">
+    <span class="section-label reveal">Cible</span>
+    <h2 class="reveal">Ce guide est fait pour vous si…</h2>
+    <div class="forwho-grid">
+      <div class="forwho-card yes reveal">
+        <div class="forwho-card-title"><span>✅</span> OUI — Ce guide est pour vous si :</div>
+        <ul class="forwho-list">
+          <li><span class="check">✔</span> Vous utilisez Claude mais vos résultats sont irréguliers</li>
+          <li><span class="check">✔</span> Vous êtes entrepreneur, cadre, consultant, ingénieur, analyste ou rédacteur</li>
+          <li><span class="check">✔</span> Vous voulez passer de "j'essaie Claude" à "je maîtrise Claude"</li>
+          <li><span class="check">✔</span> Vous cherchez une méthode complète, pas une liste de tips</li>
+          <li><span class="check">✔</span> Vous avez besoin d'un support pour former votre équipe à l'IA</li>
+        </ul>
+      </div>
+      <div class="forwho-card no reveal reveal-delay-1">
+        <div class="forwho-card-title"><span>❌</span> NON — Ce guide n'est pas pour vous si :</div>
+        <ul class="forwho-list">
+          <li><span class="check">✗</span> Vous cherchez un guide pour débutants complets en informatique</li>
+          <li><span class="check">✗</span> Vous voulez de la vulgarisation grand public superficielle</li>
+          <li><span class="check">✗</span> Vous n'êtes pas prêt à lire 100 pages de formation dense</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TABLE DES MATIÈRES -->
+<section id="toc">
+  <div class="container">
+    <span class="section-label reveal">Transparence totale</span>
+    <h2 class="reveal">Ce que contient la formation, en détail.</h2>
+    <div class="toc-container reveal">
+      <div class="toc-header-bar">
+        <div class="toc-dot"></div>
+        <div class="toc-dot"></div>
+        <div class="toc-dot"></div>
+        <span class="toc-filename">table-des-matieres.txt — Guide Complet Claude 2026</span>
+      </div>
+      <div class="toc-scroll">
+        <div class="toc-module-title">── MODULE I · Comprendre Claude en 2026</div>
+        <div class="toc-entry"><span>1.1 · Les modèles Claude : Opus, Sonnet, Haiku</span><span class="toc-page">p. 8</span></div>
+        <div class="toc-entry toc-entry-sub"><span>1.1.1 · Quand utiliser quel modèle</span><span class="toc-page">p. 10</span></div>
+        <div class="toc-entry toc-entry-sub"><span>1.1.2 · Benchmarks & cas d'usage réels</span><span class="toc-page">p. 12</span></div>
+        <div class="toc-entry"><span>1.2 · La fenêtre de contexte 200k expliquée</span><span class="toc-page">p. 14</span></div>
+        <div class="toc-entry"><span>1.3 · Coupure de connaissance & hallucinations</span><span class="toc-page">p. 16</span></div>
+        <div class="toc-entry"><span>1.4 · Les valeurs propres de Claude</span><span class="toc-page">p. 18</span></div>
+
+        <div class="toc-module-title">── MODULE II · La psychologie du bon prompt</div>
+        <div class="toc-entry"><span>2.1 · Les 4 piliers d'un prompt efficace</span><span class="toc-page">p. 24</span></div>
+        <div class="toc-entry toc-entry-sub"><span>2.1.1 · Contexte : donner le cadre</span><span class="toc-page">p. 25</span></div>
+        <div class="toc-entry toc-entry-sub"><span>2.1.2 · Tâche : formuler la commande exacte</span><span class="toc-page">p. 27</span></div>
+        <div class="toc-entry toc-entry-sub"><span>2.1.3 · Format : spécifier le livrable</span><span class="toc-page">p. 29</span></div>
+        <div class="toc-entry toc-entry-sub"><span>2.1.4 · Contraintes : définir les limites</span><span class="toc-page">p. 31</span></div>
+        <div class="toc-entry"><span>2.2 · Les 12 pièges les plus fréquents</span><span class="toc-page">p. 33</span></div>
+        <div class="toc-entry"><span>2.3 · La règle du brief de communication</span><span class="toc-page">p. 37</span></div>
+
+        <div class="toc-module-title">── MODULE III · Techniques avancées</div>
+        <div class="toc-entry"><span>3.1 · Chain-of-Thought prompting</span><span class="toc-page">p. 42</span></div>
+        <div class="toc-entry"><span>3.2 · Few-shot & exemples guidants</span><span class="toc-page">p. 45</span></div>
+        <div class="toc-entry"><span>3.3 · Role prompting & personas</span><span class="toc-page">p. 48</span></div>
+        <div class="toc-entry"><span>3.4 · Décomposition de tâches complexes</span><span class="toc-page">p. 51</span></div>
+        <div class="toc-entry"><span>3.5 · Méta-réflexion & auto-critique</span><span class="toc-page">p. 54</span></div>
+        <div class="toc-entry"><span>3.6 · Combinaisons & recettes avancées</span><span class="toc-page">p. 57</span></div>
+
+        <div class="toc-module-title">── MODULE IV · Mémoire & contexte</div>
+        <div class="toc-entry"><span>4.1 · Projects Claude : organisation optimale</span><span class="toc-page">p. 62</span></div>
+        <div class="toc-entry"><span>4.2 · Conversations longues sans dégradation</span><span class="toc-page">p. 65</span></div>
+        <div class="toc-entry"><span>4.3 · Upload de documents : PDF, CSV, code</span><span class="toc-page">p. 68</span></div>
+
+        <div class="toc-module-title">── MODULE V · Claude pour écrire</div>
+        <div class="toc-entry"><span>5.1 · Emails professionnels haute qualité</span><span class="toc-page">p. 74</span></div>
+        <div class="toc-entry"><span>5.2 · Notes de synthèse & rapports</span><span class="toc-page">p. 77</span></div>
+        <div class="toc-entry"><span>5.3 · Pitch investisseur & decks</span><span class="toc-page">p. 80</span></div>
+        <div class="toc-entry"><span>5.4 · Voix personnalisée : entraîner Claude sur votre style</span><span class="toc-page">p. 83</span></div>
+
+        <div class="toc-module-title">── MODULE VI · Claude pour coder</div>
+        <div class="toc-entry"><span>6.1 · Génération de code : les bonnes pratiques</span><span class="toc-page">p. 88</span></div>
+        <div class="toc-entry"><span>6.2 · Debug & refactoring assistés</span><span class="toc-page">p. 91</span></div>
+        <div class="toc-entry"><span>6.3 · Claude Code : la ligne de commande</span><span class="toc-page">p. 94</span></div>
+        <div class="toc-entry"><span>6.4 · Vibe coding : de l'idée à l'app</span><span class="toc-page">p. 97</span></div>
+
+        <div class="toc-module-title">── MODULE VII · Analyser et raisonner</div>
+        <div class="toc-entry"><span>7.1 · Analyse de documents longs</span><span class="toc-page">p. 102</span></div>
+        <div class="toc-entry"><span>7.2 · Extraction structurée & JSON</span><span class="toc-page">p. 105</span></div>
+        <div class="toc-entry"><span>7.3 · Deep Research : méthodologie complète</span><span class="toc-page">p. 107</span></div>
+
+        <div class="toc-module-title">── MODULE VIII · Écosystème Claude 2026</div>
+        <div class="toc-entry"><span>8.1 · claude.ai, apps & intégrations</span><span class="toc-page">p. 112</span></div>
+        <div class="toc-entry"><span>8.2 · API & MCP : pour les développeurs</span><span class="toc-page">p. 114</span></div>
+
+        <div class="toc-module-title">── MODULES IX & X · Limites & Workflows</div>
+        <div class="toc-entry"><span>9.1 · Anatomie d'une hallucination</span><span class="toc-page">p. 116</span></div>
+        <div class="toc-entry"><span>10.1 · Les 5 questions avant tout prompt</span><span class="toc-page">p. 118</span></div>
+      </div>
+    </div>
+    <p class="toc-caption reveal">Extrait de la table des matières — 119 pages, structurées pour la progression et la consultation ponctuelle.</p>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="container">
+    <span class="section-label reveal">Témoignages</span>
+    <h2 class="reveal">Ce que disent ceux qui l'ont lu.</h2>
+    <div class="testi-grid">
+      <div class="testi-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="testi-quote">Avant ce guide, j'utilisais Claude comme un moteur de recherche amélioré. Après, je l'utilise comme un vrai collaborateur. La différence est spectaculaire — mes livrables clients ont une qualité que je n'atteignais pas en deux fois plus de temps.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">MC</div>
+          <div>
+            <div class="testi-name">Marie C.</div>
+            <div class="testi-role">Consultante en stratégie — Paris</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal reveal-delay-1">
+        <div class="stars">★★★★★</div>
+        <p class="testi-quote">En tant que responsable formation, j'ai testé beaucoup de contenus IA. C'est le premier que je recommande à mes équipes sans réserve. La structure pédagogique est irréprochable, les exemples sont vrais, et les exercices fonctionnent.</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background: linear-gradient(135deg, #059669, #06B6D4);">TR</div>
+          <div>
+            <div class="testi-name">Thomas R.</div>
+            <div class="testi-role">Responsable L&D — Cabinet de conseil, Lyon</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal reveal-delay-2">
+        <div class="stars">★★★★★</div>
+        <p class="testi-quote">Le module sur les limites réelles a changé ma façon de travailler avec Claude — je savais enfin quand vérifier et quand faire confiance. Et le module vibe coding m'a permis de lancer un outil interne en 3 jours, seul, sans développeur.</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background: linear-gradient(135deg, #7C3AED, #2563EB);">AL</div>
+          <div>
+            <div class="testi-name">Antoine L.</div>
+            <div class="testi-role">Entrepreneur — Startup SaaS, Bordeaux</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-early reveal">
+      <p>🚀 <strong>Vous êtes formateur ou responsable formation ?</strong><br>Obtenez un accès anticipé et participez à l'amélioration du guide en avant-première.</p>
+      <a href="mailto:contact@pelagosia.fr" class="btn-secondary">Demander un accès anticipé →</a>
+    </div>
+  </div>
+</section>
+
+<!-- OFFER -->
+<section id="offer">
+  <div class="container">
+    <div class="offer-wrapper">
+      <div style="text-align:center;">
+        <span class="section-label reveal">L'offre</span>
+        <h2 class="reveal">Accédez au Guide Complet Claude 2026</h2>
+      </div>
+      <div class="offer-card reveal">
+        <div class="offer-top">
+          <div>
+            <div class="offer-badge">🏆 Édition Premium — Formateur Certifié</div>
+            <div class="offer-title">Guide Complet Claude 2026</div>
+          </div>
+          <div class="offer-price">
+            <div class="offer-price-old">49 €</div>
+            <div class="offer-price-main"><span>€</span>19</div>
+            <div class="offer-price-sub">TTC — offre de lancement</div>
+          </div>
+        </div>
+        <div class="offer-features">
+          <div class="feature-item"><span class="check">✅</span> Guide PDF complet (119 pages)</div>
+          <div class="feature-item"><span class="check">✅</span> Accès lecture en ligne (navigateur, mobile)</div>
+          <div class="feature-item"><span class="check">✅</span> Exercices + quiz par module</div>
+          <div class="feature-item"><span class="check">✅</span> Études de cas professionnels</div>
+          <div class="feature-item"><span class="check">✅</span> Mises à jour incluses — édition 2026</div>
+          <div class="feature-item"><span class="check">✅</span> Licence formateur (usage formation interne)</div>
+        </div>
+        <div class="offer-cta">
+          <a href="#" class="btn-primary" onclick="handlePurchase(event)">Obtenir le guide maintenant →</a>
+          <div class="offer-security">
+            <span>🔒 Paiement sécurisé Stripe</span>
+            <span>⚡ Accès immédiat</span>
+            <span>↩️ Satisfait ou remboursé 14 jours</span>
+          </div>
+        </div>
+      </div>
+      <div class="offer-upsell reveal">
+        <p>💼 <strong>Pack Équipe — Licence multi-utilisateurs</strong><br>À partir de 5 personnes, tarif préférentiel. Formation en interne facilitée.</p>
+        <a href="mailto:contact@pelagosia.fr" class="btn-secondary">Nous contacter →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <div class="faq-header">
+      <span class="section-label reveal">FAQ</span>
+      <h2 class="reveal">Questions fréquentes</h2>
+    </div>
+    <div class="faq-list">
+
+      <div class="faq-item reveal">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          Quel est le niveau requis pour suivre cette formation ?
+          <span class="faq-chevron">▾</span>
+        </div>
+        <div class="faq-answer">Avoir déjà utilisé Claude au moins quelques fois suffit. La formation n'est pas pour des débutants complets en informatique, mais elle ne nécessite aucune compétence technique avancée. Si vous savez envoyer un email et utiliser un navigateur, vous êtes au bon niveau.</div>
+      </div>
+
+      <div class="faq-item reveal">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          En quoi ce guide est-il différent des ressources gratuites en ligne ?
+          <span class="faq-chevron">▾</span>
+        </div>
+        <div class="faq-answer">Les ressources gratuites vous donnent des tips épars. Ce guide vous donne une méthode complète, progressive, avec des exercices, des études de cas réels et une structure pédagogique conçue pour la montée en compétence. La différence entre regarder des vidéos YouTube et suivre une vraie formation — la même qu'entre lire des recettes et prendre des cours de cuisine.</div>
+      </div>
+
+      <div class="faq-item reveal">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          Le guide est-il mis à jour quand Claude évolue ?
+          <span class="faq-chevron">▾</span>
+        </div>
+        <div class="faq-answer">Oui. Les mises à jour majeures (nouvelles versions de Claude, nouveaux outils, nouvelles fonctionnalités) sont incluses dans votre achat. Vous recevrez une notification par email à chaque mise à jour significative.</div>
+      </div>
+
+      <div class="faq-item reveal">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          Puis-je utiliser ce guide pour former mon équipe ?
+          <span class="faq-chevron">▾</span>
+        </div>
+        <div class="faq-answer">Oui, la licence individuelle inclut le droit d'utilisation en formation interne au sein de votre propre structure. Pour des formations multi-entreprises ou des déploiements à grande échelle, contactez-nous pour une licence équipe.</div>
+      </div>
+
+      <div class="faq-item reveal">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          Sous quel format est livré le guide ?
+          <span class="faq-chevron">▾</span>
+        </div>
+        <div class="faq-answer">PDF téléchargeable (haute résolution, avec signets et navigation) + accès lecture en ligne dans votre navigateur ou sur mobile. Le lien de téléchargement vous est envoyé immédiatement après paiement.</div>
+      </div>
+
+      <div class="faq-item reveal">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          Y a-t-il un accès à vie ?
+          <span class="faq-chevron">▾</span>
+        </div>
+        <div class="faq-answer">Oui. Une fois acheté, l'accès est permanent. Vous pouvez télécharger le PDF et garder l'accès en ligne sans limite de durée.</div>
+      </div>
+
+      <div class="faq-item reveal">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          Comment fonctionne la garantie satisfait ou remboursé ?
+          <span class="faq-chevron">▾</span>
+        </div>
+        <div class="faq-answer">Vous avez 14 jours après l'achat pour demander un remboursement intégral, sans justification requise. Envoyez simplement un email à contact@pelagosia.fr avec votre numéro de commande. Remboursement traité sous 48h.</div>
+      </div>
+
+      <div class="faq-item reveal">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          Qui est Pelagosia ?
+          <span class="faq-chevron">▾</span>
+        </div>
+        <div class="faq-answer">Pelagosia est un organisme de formation français spécialisé dans la maîtrise professionnelle de Claude et des outils IA. Fondé en 2025, Pelagosia produit des formations pédagogiquement rigoureuses, conçues par des praticiens qui utilisent Claude au quotidien dans des contextes professionnels réels.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section id="final-cta">
+  <div class="container" style="text-align:center;">
+    <span class="section-label reveal">La décision</span>
+    <h2 class="reveal" style="max-width:640px;margin:0 auto 24px;">Prenez une décision claire.</h2>
+    <p class="final-text reveal">
+      Dans 30 jours, soit vous utilisez Claude comme vous l'utilisez aujourd'hui. Soit vous avez intégré les techniques, les réflexes et les workflows qui font la différence entre un utilisateur ordinaire et un utilisateur expert. <strong>Le guide est là. Le reste vous appartient.</strong>
+    </p>
+    <div class="reveal">
+      <a href="#offer" class="btn-primary" style="font-size:1.1rem;padding:18px 44px;">Obtenir le guide maintenant →</a>
+      <br>
+      <div class="guarantee">🛡️ Satisfait ou remboursé — 14 jours, sans question.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="#" class="logo">Pela<span>gosia</span></a>
+        <p class="footer-tagline">Formation française à l'IA Claude</p>
+      </div>
+      <div class="footer-links">
+        <a href="#">Mentions légales</a>
+        <a href="#">CGV</a>
+        <a href="#">Politique de confidentialité</a>
+        <a href="mailto:contact@pelagosia.fr">Contact</a>
+      </div>
+    </div>
+    <div class="footer-copy">
+      © 2026 Pelagosia — Tous droits réservés
+    </div>
+  </div>
+</footer>
+
+</div>
+
+<!-- MOBILE STICKY CTA -->
+<div class="mobile-sticky-cta" id="mobileCta">
+  <a href="#offer" class="btn-primary" onclick="this.closest('.mobile-sticky-cta').style.display='none'">Obtenir le guide — 19 € →</a>
+</div>
+
+<script>
+  // NAV SCROLL
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // HAMBURGER
+  function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('open');
+  }
+
+  // COUNTER ANIMATION
+  function animateCounter(el, target, duration = 1500) {
+    let start = 0;
+    const step = target / (duration / 16);
+    const update = () => {
+      start = Math.min(start + step, target);
+      el.textContent = Math.floor(start);
+      if (start < target) requestAnimationFrame(update);
+    };
+    requestAnimationFrame(update);
+  }
+
+  // SCROLL REVEAL + COUNTERS
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        const nums = entry.target.querySelectorAll ? entry.target.querySelectorAll('[data-target]') : [];
+        nums.forEach(num => {
+          animateCounter(num, parseInt(num.getAttribute('data-target')));
+        });
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+  // Counter in stats section (direct children)
+  const statsSection = document.getElementById('stats');
+  if (statsSection) {
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.querySelectorAll('[data-target]').forEach(num => {
+            animateCounter(num, parseInt(num.getAttribute('data-target')));
+          });
+          statsObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    statsObserver.observe(statsSection);
+  }
+
+  // MODULE ACCORDION
+  function toggleModule(header) {
+    const item = header.closest('.module-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.module-item.open').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // FAQ ACCORDION
+  function toggleFaq(question) {
+    const item = question.closest('.faq-item');
+    item.classList.toggle('open');
+  }
+
+  // MOBILE STICKY: hide when offer section visible
+  const offerSection = document.getElementById('offer');
+  const mobileCta = document.getElementById('mobileCta');
+  if (offerSection && mobileCta) {
+    const mobileObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        mobileCta.style.display = entry.isIntersecting ? 'none' : 'block';
+      });
+    }, { threshold: 0.1 });
+    mobileObserver.observe(offerSection);
+  }
+
+  // PURCHASE HANDLER
+function handlePurchase(e) {
+    e.preventDefault();
     window.location.href = 'https://buy.stripe.com/test_3cI7sNfJpcNVcXT89Qbwk00';
 
   }
