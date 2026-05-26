@@ -1,0 +1,9 @@
+{
+  "name": "pelagosia-webhook",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "resend": "^3.0.0",
+    "stripe": "^14.0.0"
+  }
+}
