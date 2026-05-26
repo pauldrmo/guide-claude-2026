@@ -1745,12 +1745,10 @@
   }
 
   // PURCHASE HANDLER
-  function handlePurchase(e) {
+function handlePurchase(e) {
     e.preventDefault();
-    // Replace this URL with your actual Stripe Checkout link
-    const stripeUrl = 'https://buy.stripe.com/VOTRE_LIEN_STRIPE';
-    // For now, show a modal
-    showPurchaseModal();
+    window.location.href = 'https://buy.stripe.com/test_3cI7sNfJpcNVcXT89Qbwk00';
+
   }
 
   function showPurchaseModal() {
