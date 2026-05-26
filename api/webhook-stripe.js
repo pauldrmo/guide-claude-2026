@@ -1,6 +1,3 @@
-// api/webhook-stripe.js
-// Vercel Serverless Function — Stripe Webhook → Resend → contact@pelagosia.fr
-
 import Stripe from "stripe";
 import { Resend } from "resend";
 
@@ -8,8 +5,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 function emailTemplate({ customerName, downloadUrl, productName }) {
-  return `
-<!DOCTYPE html>
+  return `<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
@@ -17,7 +13,7 @@ function emailTemplate({ customerName, downloadUrl, productName }) {
     body { font-family: 'Helvetica Neue', sans-serif; background: #0a0f1e; color: #e8eaf6; margin: 0; padding: 0; }
     .container { max-width: 600px; margin: 40px auto; background: #111827; border-radius: 12px; overflow: hidden; }
     .header { background: linear-gradient(135deg, #0d1b4b 0%, #0050ff 100%); padding: 40px 32px; text-align: center; }
-    .header h1 { color: #fff; font-size: 28px; margin: 0; letter-spacing: -0.5px; }
+    .header h1 { color: #fff; font-size: 28px; margin: 0; }
     .header p { color: rgba(255,255,255,0.75); margin: 8px 0 0; font-size: 14px; }
     .body { padding: 36px 32px; }
     .body h2 { color: #60a5fa; font-size: 20px; margin-top: 0; }
@@ -41,54 +37,30 @@ function emailTemplate({ customerName, downloadUrl, productName }) {
         <a class="btn" href="${downloadUrl}">📥 Accéder à ma formation</a>
       </div>
       <div class="highlight">
-        <p style="margin:0; font-size:13px; color:#94a3b8;">
-          🔒 Un problème ? Réponds directement à cet email.
-        </p>
+        <p style="margin:0; font-size:13px; color:#94a3b8;">🔒 Un problème ? Réponds directement à cet email.</p>
       </div>
       <p>À très vite,<br/><strong>L'équipe Pelagosia</strong></p>
     </div>
-    <div class="footer">
-      Pelagosia — Formation IA &nbsp;|&nbsp; contact@pelagosia.fr
-    </div>
+    <div class="footer">Pelagosia — Formation IA &nbsp;|&nbsp; contact@pelagosia.fr</div>
   </div>
 </body>
 </html>`;
 }
-
-// Lecture du raw body via ReadableStream (compatible Vercel Edge + Node)
-async function getRawBody(req) {
-  const chunks = [];
-  for await (const chunk of req) {
-    chunks.push(typeof chunk === "string" ? Buffer.from(chunk) : chunk);
-  }
-  return Buffer.concat(chunks);
-}
-
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  let rawBody;
-  try {
-    rawBody = await getRawBody(req);
-  } catch (err) {
-    console.error("Erreur lecture body:", err);
-    return res.status(400).json({ error: "Cannot read body" });
-  }
+  // Lecture raw body via buffer — méthode la plus fiable sur Vercel statique
+  const rawBody = await new Promise((resolve, reject) => {
+    const chunks = [];
+    req.on("data", (chunk) => chunks.push(Buffer.from(chunk)));
+    req.on("end", () => resolve(Buffer.concat(chunks).toString("utf8")));
+    req.on("error", reject);
+  });
 
   const sig = req.headers["stripe-signature"];
-
-  if (!sig) {
-    console.error("Pas de stripe-signature dans les headers");
-    return res.status(400).json({ error: "Missing stripe-signature header" });
-  }
 
   let event;
   try {
@@ -98,36 +70,31 @@ export default async function handler(req, res) {
       process.env.STRIPE_WEBHOOK_SECRET
     );
   } catch (err) {
-    console.error("Signature invalide:", err.message);
-    return res.status(400).json({ error: `Webhook Error: ${err.message}` });
+    console.error("Erreur signature:", err.message);
+    return res.status(400).json({ error: err.message });
   }
 
   if (event.type === "checkout.session.completed") {
     const session = event.data.object;
-
     const customerEmail = session.customer_details?.email;
     const customerName = session.customer_details?.name?.split(" ")[0] || "là";
     const productName = session.metadata?.product_name || "Formation Pelagosia";
     const downloadUrl = session.metadata?.download_url || process.env.DEFAULT_DOWNLOAD_URL;
 
-    console.log(`Paiement reçu de ${customerEmail} pour ${productName}`);
+    console.log(`Paiement reçu: ${customerEmail}`);
 
-    if (!customerEmail) {
-      console.warn("Pas d'email client dans la session");
-      return res.status(200).json({ received: true });
-    }
-
-    try {
-      const result = await resend.emails.send({
-        from: "Pelagosia Formation <contact@pelagosia.fr>",
-        to: customerEmail,
-        subject: `✅ Ton accès "${productName}" est prêt !`,
-        html: emailTemplate({ customerName, downloadUrl, productName }),
-      });
-
-      console.log(`✅ Email envoyé à ${customerEmail} — ID: ${result.id}`);
-    } catch (err) {
-      console.error("Erreur Resend:", err);
+    if (customerEmail) {
+      try {
+        await resend.emails.send({
+          from: "Pelagosia Formation <contact@pelagosia.fr>",
+          to: customerEmail,
+          subject: `✅ Ton accès "${productName}" est prêt !`,
+          html: emailTemplate({ customerName, downloadUrl, productName }),
+        });
+        console.log(`✅ Email envoyé à ${customerEmail}`);
+      } catch (err) {
+        console.error("Erreur Resend:", err.message);
+      }
     }
   }
 
