@@ -1,12 +1,11 @@
 // api/webhook-stripe.js
 // Vercel Serverless Function — Stripe Webhook → Resend → contact@pelagosia.fr
-// Déposer dans le dossier /api/ de ton projet Vercel
 
+import Stripe from "stripe";
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-
-// ─── Template email ──────────────────────────────────────────────────────────
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 function emailTemplate({ customerName, downloadUrl, productName }) {
   return `
@@ -43,59 +42,66 @@ function emailTemplate({ customerName, downloadUrl, productName }) {
       </div>
       <div class="highlight">
         <p style="margin:0; font-size:13px; color:#94a3b8;">
-          🔒 Lien sécurisé valable 7 jours. Un problème ? Réponds directement à cet email.
+          🔒 Un problème ? Réponds directement à cet email.
         </p>
       </div>
       <p>À très vite,<br/><strong>L'équipe Pelagosia</strong></p>
     </div>
     <div class="footer">
-      Pelagosia — Formation IA &nbsp;|&nbsp; contact@pelagosia.fr<br/>
-      Tu reçois cet email car tu as effectué un achat sur pelagosia.fr
+      Pelagosia — Formation IA &nbsp;|&nbsp; contact@pelagosia.fr
     </div>
   </div>
 </body>
 </html>`;
 }
 
-// ─── Handler principal ───────────────────────────────────────────────────────
+// Lecture du raw body via ReadableStream (compatible Vercel Edge + Node)
+async function getRawBody(req) {
+  const chunks = [];
+  for await (const chunk of req) {
+    chunks.push(typeof chunk === "string" ? Buffer.from(chunk) : chunk);
+  }
+  return Buffer.concat(chunks);
+}
 
 export const config = {
-  api: { bodyParser: false }, // OBLIGATOIRE pour vérification signature Stripe
+  api: {
+    bodyParser: false,
+  },
 };
-
-async function getRawBody(req) {
-  return new Promise((resolve, reject) => {
-    const chunks = [];
-    req.on("data", (chunk) => chunks.push(chunk));
-    req.on("end", () => resolve(Buffer.concat(chunks)));
-    req.on("error", reject);
-  });
-}
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const rawBody = await getRawBody(req);
+  let rawBody;
+  try {
+    rawBody = await getRawBody(req);
+  } catch (err) {
+    console.error("Erreur lecture body:", err);
+    return res.status(400).json({ error: "Cannot read body" });
+  }
+
   const sig = req.headers["stripe-signature"];
 
-  // Vérification signature Stripe
+  if (!sig) {
+    console.error("Pas de stripe-signature dans les headers");
+    return res.status(400).json({ error: "Missing stripe-signature header" });
+  }
+
   let event;
   try {
-    const stripe = (await import("stripe")).default;
-    const stripeClient = new stripe(process.env.STRIPE_SECRET_KEY);
-    event = stripeClient.webhooks.constructEvent(
+    event = stripe.webhooks.constructEvent(
       rawBody,
       sig,
       process.env.STRIPE_WEBHOOK_SECRET
     );
   } catch (err) {
-    console.error("Signature invalide :", err.message);
+    console.error("Signature invalide:", err.message);
     return res.status(400).json({ error: `Webhook Error: ${err.message}` });
   }
 
-  // Paiement confirmé
   if (event.type === "checkout.session.completed") {
     const session = event.data.object;
 
@@ -104,22 +110,24 @@ export default async function handler(req, res) {
     const productName = session.metadata?.product_name || "Formation Pelagosia";
     const downloadUrl = session.metadata?.download_url || process.env.DEFAULT_DOWNLOAD_URL;
 
+    console.log(`Paiement reçu de ${customerEmail} pour ${productName}`);
+
     if (!customerEmail) {
       console.warn("Pas d'email client dans la session");
       return res.status(200).json({ received: true });
     }
 
     try {
-      await resend.emails.send({
+      const result = await resend.emails.send({
         from: "Pelagosia Formation <contact@pelagosia.fr>",
         to: customerEmail,
         subject: `✅ Ton accès "${productName}" est prêt !`,
         html: emailTemplate({ customerName, downloadUrl, productName }),
       });
 
-      console.log(`✅ Email envoyé à ${customerEmail}`);
+      console.log(`✅ Email envoyé à ${customerEmail} — ID: ${result.id}`);
     } catch (err) {
-      console.error("Erreur Resend :", err);
+      console.error("Erreur Resend:", err);
     }
   }
 
