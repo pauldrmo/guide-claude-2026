@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accès à votre formation — Pelagosia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0A0E1A;
+      color: #F9FAFB;
+      font-family: 'Sora', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .card {
+      background: #111827;
+      border: 1px solid rgba(37,99,235,0.3);
+      border-radius: 16px;
+      padding: 56px 48px;
+      max-width: 520px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 0 60px rgba(37,99,235,0.12);
+    }
+    .icon { font-size: 3.5rem; margin-bottom: 24px; }
+    h1 { font-size: 1.8rem; color: #F9FAFB; margin-bottom: 12px; font-weight: 700; }
+    .sub { color: #9CA3AF; font-size: 0.95rem; line-height: 1.7; margin-bottom: 32px; }
+    .btn {
+      display: inline-block;
+      background: #2563EB;
+      color: white;
+      text-decoration: none;
+      padding: 16px 36px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: background 0.2s;
+      margin-bottom: 16px;
+    }
+    .btn:hover { background: #3B82F6; }
+    .note { font-size: 0.78rem; color: #6B7280; margin-top: 16px; }
+    .status { font-size: 0.85rem; color: #10B981; margin-top: 20px; display: none; }
+    .status.error { color: #EF4444; }
+  </style>
+</head>
+<body>
+<div class="card">
+  <div class="icon">🎉</div>
+  <h1>Paiement confirmé !</h1>
+  <p class="sub">Merci pour votre achat. Votre accès au <strong>Guide Complet Claude 2026</strong> est disponible immédiatement.</p>
+  <a href="https://drive.google.com/file/d/1xyiZcxgQzhQPIz5MBiIYNPR_LFnyJD0e/view?usp=sharing" class="btn" target="_blank">
+    📥 Accéder à ma formation maintenant
+  </a>
+  <p class="note">🔒 Un email de confirmation est en cours d'envoi à votre adresse.</p>
+  <div class="status" id="status"></div>
+</div>
+
+<script>
+  const RESEND_API_KEY = 're_Xk6Ku3Dg_JJmLYrYD6sJgdmGhbbXGr3pL';
+  const DOWNLOAD_URL = 'https://drive.google.com/file/d/1xyiZcxgQzhQPIz5MBiIYNPR_LFnyJD0e/view?usp=sharing';
+
+  // Récupère l'email depuis les paramètres URL de Stripe
+  const params = new URLSearchParams(window.location.search);
+  const email = params.get('prefilled_email') || params.get('email') || null;
+
+  async function sendConfirmationEmail(to) {
+    const res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${RESEND_API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        from: 'Pelagosia Formation <contact@pelagosia.fr>',
+        to: [to],
+        subject: '✅ Ton accès "Guide Complet Claude 2026" est prêt !',
+        html: `
+          <div style="font-family:'Helvetica Neue',sans-serif;background:#0a0f1e;padding:40px 0;">
+            <div style="max-width:600px;margin:0 auto;background:#111827;border-radius:12px;overflow:hidden;">
+              <div style="background:linear-gradient(135deg,#0d1b4b,#0050ff);padding:40px 32px;text-align:center;">
+                <h1 style="color:#fff;font-size:26px;margin:0;">Pelagosia</h1>
+                <p style="color:rgba(255,255,255,0.75);margin:8px 0 0;font-size:14px;">Formation Intelligence Artificielle</p>
+              </div>
+              <div style="padding:36px 32px;">
+                <h2 style="color:#60a5fa;font-size:20px;margin-top:0;">Bonjour 👋</h2>
+                <p style="color:#cbd5e1;line-height:1.7;">Merci pour ton achat ! Ton accès au <strong>Guide Complet Claude 2026</strong> est confirmé.</p>
+                <div style="text-align:center;margin:28px 0;">
+                  <a href="${DOWNLOAD_URL}" style="background:#0050ff;color:#fff;padding:14px 32px;border-radius:8px;text-decoration:none;font-weight:600;font-size:16px;">📥 Accéder à ma formation</a>
+                </div>
+                <div style="background:#1e293b;border-left:3px solid #0050ff;padding:12px 16px;border-radius:4px;">
+                  <p style="margin:0;font-size:13px;color:#94a3b8;">🔒 Un problème ? Réponds à cet email : contact@pelagosia.fr</p>
+                </div>
+                <p style="color:#cbd5e1;margin-top:24px;">À très vite,<br/><strong>L'équipe Pelagosia</strong></p>
+              </div>
+              <div style="padding:20px 32px;border-top:1px solid #1e293b;text-align:center;color:#475569;font-size:12px;">
+                Pelagosia — Formation IA | contact@pelagosia.fr
+              </div>
+            </div>
+          </div>
+        `
+      })
+    });
+    return res.ok;
+  }
+
+  // Envoie l'email si on a l'adresse
+  if (email) {
+    sendConfirmationEmail(email).then(ok => {
+      const el = document.getElementById('status');
+      el.style.display = 'block';
+      if (ok) {
+        el.textContent = `✅ Email de confirmation envoyé à ${email}`;
+      } else {
+        el.className = 'status error';
+        el.textContent = 'Email non envoyé automatiquement — contactez contact@pelagosia.fr';
+      }
+    });
+  }
+</script>
+</body>
+</html>
